@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .concluded {
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <form @submit.prevent="addTask">
+      <label>
+        Descrição:
+        <input type="text" v-model="inputDescription"> 
+      </label>
+      <label>
+        Categoria:
+        <select v-model="selectCategoria">
+          <option v-for="cat in categorias" :value="cat">
+            {{ cat }}
+          </option>
+        </select> 
+      </label>
+      <input type="submit" :disabled="isEmpty">
+    </form>
+    
+    <ul v-if="nConcluidas.length > 0">
+      <li v-for="task in nConcluidas" :class="{
+        concluded: task.concluded
+      }">
+        {{ task.description }} - {{ task.categoria }}
+        <input type="checkbox" @change="task.concluded = !task.concluded" :checked="task.concluded">
+        <button @click="remove(task.id)"> Remover </button>
+      </li>
+    </ul>
+    <p v-else>
+      Nenhuma tarefa adicionada!
+    </p>
+
+    <ul v-if="concluidas.length > 0">
+      <li v-for="task in concluidas" :class="{
+        concluded: task.concluded
+      }">
+        {{ task.description }} - {{ task.categoria }}
+        <button @click="remove(task.id)"> Remover </button>
+      </li>
+    </ul>
+    <p v-else>
+      Nenhuma tarefa concluída!
+    </p>
+
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="todo.js"></script>
+</body>
+</html>
